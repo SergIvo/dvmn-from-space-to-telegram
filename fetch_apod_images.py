@@ -1,7 +1,7 @@
 import os
 from argparse import ArgumentParser
 import requests
-from common import download_image, get_extension
+from downloading import download_image, get_extension
 from dotenv import load_dotenv
 
 
@@ -12,8 +12,9 @@ def fetch_nasa_apod(directory, api_key):
     response.raise_for_status()
     image_urls = [apod['url'] for apod in response.json()]
     for i, image_url in enumerate(image_urls):
-        filename = f'nasa_apod_{i}{get_extension(image_url)}'
-        download_image(image_url, os.path.join(directory, filename))
+        if get_extension(image_url):
+            filename = f'nasa_apod_{i}{get_extension(image_url)}'
+            download_image(image_url, os.path.join(directory, filename))
 
 
 if __name__ == '__main__':
