@@ -33,8 +33,25 @@ Having NASA API key set is not necessary if you specify directory with images wh
 
 To make environment variable management easier, you can create [.env](https://pypi.org/project/python-dotenv/#getting-started) file and store all variables in it. 
 
-Run `main.py` with a `-d` flag and a directory name as an argument:
+To make application constantly post images from certain directory to Telegram channel, run `main.py` with a `-d` flag and a directory name as an argument:
 ```
 python main.py -d images
 ```
 Or run `main.py` without arguments if you want application to download images first.
+
+To post one specified image, run `telegram_bot.py` with `-i` flag and path to image as argument:
+```
+python telegram_bot.py -i images/nasa_apod_6.jpg
+```
+To download photos of SpaceX launch to specified directory, run `fetch_spacex_images.py` with flag `-d` and directory name as argument. To download photos of specified launch, add flag `-i` and launch ID as argument. If no launch ID provided, photos from last launch with photographs will be downloaded. If directory is not specified, images will be saved in current directory.
+```
+python fetch_spacex_images.py -d images -i 5eb87ce4ffd86e000604b337
+```
+To download NASA APOD images to specified directory, run `fetch_apod_images.py` with flag `-d` and directory name as argument.
+```
+python fetch_apod_images.py -d images
+```
+To download NASA EPIC images to specified directory, run `fetch_epic_images.py` with flag `-d` and directory name as argument.
+```
+python fetch_epic_images.py -d images
+```
