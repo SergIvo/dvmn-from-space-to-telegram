@@ -1,6 +1,7 @@
 import os
-from random import shuffle
+from random import shuffle, choice
 from time import sleep
+from argparse import ArgumentParser
 import telegram
 from dotenv import load_dotenv
 
@@ -29,14 +30,18 @@ if __name__ == '__main__':
     load_dotenv()
     api_key = os.getenv('TG_API_KEY')
     channel_id = os.getenv('CHANNEL_ID')
+    arg_parser = ArgumentParser()
+    arg_parser.add_argument('-i', dest='image', help='Image to load')
+    args = arg_parser.parse_args()
 
     bot = telegram.Bot(token=api_key)
-    bot.send_message(chat_id=channel_id, text='Here comes picture!')
-
     path_to_images = os.path.join(os.getcwd(), 'images')
-    if os.path.exists(path_to_images):
+    if args.image:
+        with open(os.path.join(os.getcwd(), args.image), 'rb') as file:
+            bot.send_document(chat_id=channel_id, document=file)
+    elif os.path.exists(path_to_images):
         images = os.listdir(path_to_images)
-        with open(os.path.join(path_to_images, images[0]), 'rb') as file:
+        with open(os.path.join(path_to_images, choice(images)), 'rb') as file:
             bot.send_document(chat_id=channel_id, document=file)
     else:
         bot.send_message(chat_id=channel_id, text='No pictures :(')
