@@ -14,16 +14,12 @@ def send_images_to_tg(api_key, channel_id, image_directory, delay):
         base_path, __, files = subdirectory
         paths = [os.path.join(base_path, file) for file in files]
         all_images.extend(paths)
-    counter = 0
     while True:
-        if counter == len(all_images):
-            shuffle(all_images)
-            counter = 0
-        image = all_images[counter]
-        if os.stat(image).st_size and os.stat(image).st_size < 20971520:
-            with open(image, 'rb') as file:
-                bot.send_document(chat_id=channel_id, document=file)
-        counter += 1
+        for image in all_images:
+            if os.stat(image).st_size and os.stat(image).st_size < 20971520:
+                with open(image, 'rb') as file:
+                    bot.send_document(chat_id=channel_id, document=file)
+        shuffle(all_images)
         sleep(delay)
 
 
