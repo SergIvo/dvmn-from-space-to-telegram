@@ -20,7 +20,7 @@ def send_images_to_tg(api_key, channel_id, image_directory, delay):
             shuffle(all_images)
             counter = 0
         image = all_images[counter]
-        if os.stat(image).st_size < 20971520 and os.stat(image).st_size != 0:
+        if os.stat(image).st_size and os.stat(image).st_size < 20971520:
             with open(image, 'rb') as file:
                 bot.send_document(chat_id=channel_id, document=file)
         counter += 1
