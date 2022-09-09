@@ -11,9 +11,9 @@ def fetch_nasa_apod(directory, api_key):
     response = requests.get(url, params=params)
     response.raise_for_status()
     image_urls = [apod['url'] for apod in response.json()]
-    for i, image_url in enumerate(image_urls):
+    for image_number, image_url in enumerate(image_urls):
         if get_extension(image_url):
-            filename = f'nasa_apod_{i}{get_extension(image_url)}'
+            filename = f'nasa_apod_{image_number}{get_extension(image_url)}'
             download_image(image_url, os.path.join(directory, filename))
 
 

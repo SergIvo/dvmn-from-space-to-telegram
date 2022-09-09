@@ -14,8 +14,8 @@ def fetch_spacex_last_launch(directory, launch_id):
         response.raise_for_status()
         launches_with_images = [launch for launch in response.json() if launch['links']['flickr']['original']]
         urls_to_images = launches_with_images[0]['links']['flickr']['original']
-    for i, image_url in enumerate(urls_to_images):
-        download_image(image_url, os.path.join(directory, f'spacex_{i}.jpg'))
+    for image_number, image_url in enumerate(urls_to_images):
+        download_image(image_url, os.path.join(directory, f'spacex_{image_number}.jpg'))
 
 
 if __name__ == '__main__':

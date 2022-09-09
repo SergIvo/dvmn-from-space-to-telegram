@@ -11,7 +11,7 @@ def fetch_nasa_epic(images_dir, api_key):
     response = requests.get(url, params=params)
     response.raise_for_status()
     recent_images = response.json()
-    for i, image in enumerate(recent_images):
+    for image in recent_images:
         filename = f"{image['image']}.png"
         image_datetime = datetime.fromisoformat(image['date'])
         image_date = image_datetime.strftime('%Y/%m/%d')
