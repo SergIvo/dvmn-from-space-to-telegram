@@ -10,8 +10,9 @@ def send_images_to_tg(api_key, channel_id, image_directory, delay):
     bot = telegram.Bot(token=api_key)
     all_images = []
     path_to_directory = os.path.join(os.getcwd(), image_directory)
-    for dir in os.walk(path_to_directory):
-        paths = [os.path.join(dir[0], file) for file in dir[2]]
+    for subdirectory in os.walk(path_to_directory):
+        base_path, __, files = subdirectory
+        paths = [os.path.join(base_path, file) for file in files]
         all_images.extend(paths)
     counter = 0
     while True:
