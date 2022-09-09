@@ -3,6 +3,7 @@ from argparse import ArgumentParser
 from datetime import datetime
 import requests
 from dotenv import load_dotenv
+from downloading import download_image
 
 
 def fetch_nasa_epic(images_dir, api_key):
@@ -16,10 +17,8 @@ def fetch_nasa_epic(images_dir, api_key):
         image_datetime = datetime.fromisoformat(image['date'])
         image_date = image_datetime.strftime('%Y/%m/%d')
         image_url = f'https://api.nasa.gov/EPIC/archive/natural/{image_date}/png/{filename}'
-        response = requests.get(image_url, params=params)
-        response.raise_for_status()
-        with open(os.path.join(images_dir, filename), 'wb') as file:
-            file.write(response.content)
+        image_path = os.path.join(images_dir, filename)
+        download_image(image_url, image_path, params=params)
 
 
 if __name__ == '__main__':
