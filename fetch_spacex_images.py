@@ -4,7 +4,7 @@ import requests
 from downloading import download_image
 
 
-def fetch_spacex_last_launch(directory, launch_id=None):
+def fetch_spacex_last_launch(directory, launch_id):
     if launch_id:
         response = requests.get(f'https://api.spacexdata.com/v5/launches/{launch_id}')
         response.raise_for_status()
@@ -20,15 +20,13 @@ def fetch_spacex_last_launch(directory, launch_id=None):
 
 if __name__ == '__main__':
     arg_parser = ArgumentParser()
-    arg_parser.add_argument('-i', dest='id', help='SpaceX launch ID')
-    arg_parser.add_argument('-d', dest='directory', help='Path to directory there images should be loaded')
+    arg_parser.add_argument('-i', dest='id', default='', help='SpaceX launch ID')
+    arg_parser.add_argument(
+        '-d',
+        dest='directory',
+        default=os.getcwd(),
+        help='Path to directory there images should be loaded'
+    )
     args = arg_parser.parse_args()
 
-    if args.directory:
-        images_directory = args.directory
-    else:
-        images_directory = os.getcwd()
-    if not args.id:
-        fetch_spacex_last_launch(images_directory)
-    else:
-        fetch_spacex_last_launch(images_directory, launch_id=args.id)
+    fetch_spacex_last_launch(args.directory, launch_id=args.id)

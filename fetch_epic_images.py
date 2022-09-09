@@ -26,10 +26,12 @@ if __name__ == '__main__':
     load_dotenv()
     api_key = os.getenv('NASA_API_KEY')
     arg_parser = ArgumentParser()
-    arg_parser.add_argument('-d', dest='directory', help='Path to directory there images should be loaded')
+    arg_parser.add_argument(
+        '-d',
+        dest='directory',
+        default=os.getcwd(),
+        help='Path to directory there images should be loaded'
+    )
     args = arg_parser.parse_args()
 
-    if args.directory:
-        fetch_nasa_epic(args.directory, api_key)
-    else:
-        fetch_nasa_epic(os.getcwd(), api_key)
+    fetch_nasa_epic(args.directory, api_key)
